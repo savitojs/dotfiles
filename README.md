@@ -2,8 +2,6 @@
     <img width="600" height="40" src="images/dotfiles.png"/>
     <br/>
     <br/>
-    <a href="https://github.com/savitojs/dotfiles/-/commits/master"><img alt="pipeline status" src="https://github.com/savitojs/dotfiles/badges/master/pipeline.svg" /></a>
-    <br/>
     <img src="https://img.shields.io/badge/license-MIT-green.svg"/>
     <img src="https://img.shields.io/badge/Fedora-31-blue.svg"/>
     <br/>
