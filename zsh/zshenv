@@ -1,0 +1,26 @@
+export EDITOR="vim"
+export VISUAL="vim"
+setopt NO_GLOBAL_RCS
+
+if [ -n "$DESKTOP_SESSION" ];then
+    eval $(gnome-keyring-daemon --start)
+    export SSH_AUTH_SOCK
+fi
+
+# User specific environment and startup programs
+
+export PYTHONWARNINGS="ignore:Unverified HTTPS request"
+export REQUESTS_CA_BUNDLE=/etc/pki/tls/certs/ca-bundle.crt
+
+# For Colored man pages
+export GROFF_NO_SGR=1
+
+# If you come from bash you might have to change your $PATH.
+PATH=$HOME/bin:$HOME/.local/bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+export PATH
+
+# Source $HOME/.aliases.sh if exists
+[[ ! -f $HOME/.aliases.sh ]] || source $HOME/.aliases.sh
+
+# Source SetV $HOME/bin/virtual.sh if exists https://gitlab.com/psachin/setV
+[[ ! -f $HOME/bin/virtual.sh ]] || source $HOME/bin/virtual.sh

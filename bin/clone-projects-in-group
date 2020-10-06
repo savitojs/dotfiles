@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# Author: Savitoj Singh <savsingh@redhat.com>
+
+NAMESPACE="$1"
+GROUPID="$2"
+GITLAB_URL="https://gitlab.com/"
+PROJECT_SEARCH_PARAM=""
+PROJECT_SELECTION="select(.namespace.name == \"$NAMESPACE\")"
+PROJECT_PROJECTION="{ "path": .path, "git": .ssh_url_to_repo }"
+
+display_usage() {
+	echo -e "\nThis script clone/pull the projects in specificed group in GitLab."
+	echo -e "You must GITLAB_PRIVATE_TOKEN variable before you run."
+	echo -e "\nUsage:\n$0 <group-name-in-url> <group-id>\n"
+	}
+
+if [  $# -le 1 ] 
+then 
+	display_usage
+	exit 1
+fi 
+ 
+if [[ ( $# == "--help") ||  $# == "-h" ]] 
+then 
+	display_usage
+	exit 0
+fi 
+ 
+if [ -z "$GITLAB_PRIVATE_TOKEN" ]; then
+    echo -e "\nPlease set the environment variable GITLAB_PRIVATE_TOKEN"
+    echo -e "Create here: ${GITLAB_URL}profile/account\n"
+    echo -e "export GITLAB_PRIVATE_TOKEN=dasghdjsag23y6287hjsab"
+    exit 1
+fi
+
+FILENAME="repos.json"
+
+[ -e $FILENAME  ] && rm $FILENAME
+
+PAGE_COUNTER=1
+while true; do
+    echo "Reading page $PAGE_COUNTER"
+
+    CURL_OUT=$(curl -s -k "${GITLAB_URL}api/v4/groups/$GROUPID/projects?private_token=$GITLAB_PRIVATE_TOKEN&search=$PROJECT_SEARCH_PARAM&per_page=999&page=$PAGE_COUNTER")
+    if [ "$CURL_OUT" == "[]" ]; then break; fi
+
+
+    echo $CURL_OUT | jq --raw-output --compact-output ".[] | $PROJECT_PROJECTION" >> "$FILENAME"
+    let PAGE_COUNTER++
+done
+
+while read repo; do
+    THEPATH=$(echo "$repo" | jq -r ".path")
+    GIT=$(echo "$repo" | jq -r ".git")
+
+    if [ ! -d "$THEPATH" ]; then
+        echo "Cloning $THEPATH ( $GIT )"
+        #git clone "$GIT" --quiet &
+        git clone "$GIT"
+    else
+        echo "Pulling $THEPATH"
+        (cd "$THEPATH" && git pull)
+        #(cd "$THEPATH" && git pull --quiet) &
+    fi
+done < "$FILENAME"
+
+wait
+
+# Cleanup
+rm $FILENAME

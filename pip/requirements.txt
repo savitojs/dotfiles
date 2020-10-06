@@ -1,0 +1,5 @@
+ansible==2.9.9
+asciinema==2.0.2
+bpython==0.19
+ipython==7.16.1
+speedtest-cli==2.1.2

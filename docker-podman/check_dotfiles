@@ -1,0 +1,2 @@
+#!/bin/bash
+podman run -it --rm --name savsingh_dotfiles -v `pwd`/../:/mnt localhost/fedora-dotfiles $1

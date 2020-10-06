@@ -1,0 +1,12 @@
+#!/bin/sh
+
+newBranch=$1
+
+if [ ! -z "$1" ]
+then
+  git stash
+  git checkout -b $newBranch
+  git stash pop
+else
+  echo "Branch name is not specified"
+fi

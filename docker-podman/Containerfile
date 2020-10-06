@@ -1,0 +1,7 @@
+FROM fedora
+
+RUN dnf install git zsh vim findutils -y
+
+WORKDIR /root/
+
+RUN rm -rvf .bash* .vim* .cs* .tc* *

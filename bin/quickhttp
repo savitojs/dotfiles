@@ -1,0 +1,64 @@
+#!/bin/bash
+# This creates the quick HTTP using Python.
+# Author: Savitoj Singh <savsingh@redhat.com>
+
+# Defaults to Python3 if exists
+
+DEBUG=0 # bool, 0 to disable, 1 to enable debug
+
+function display_usage() 
+{
+    echo -e "\n$0 creates current working dir to quick HTTP using Python"
+    echo -e "\nInstall:\n$0 install (first time only)"
+    echo -e "\nUsage:\n$0 <port-number>\n"
+    echo -e "Example:\n$0 8080\n"
+}
+
+function command_exists ()
+{
+    type "$1" &> /dev/null;
+
+}
+
+function find_setup_python_version() # pretty bad logic but works
+{
+    if command_exists python3; then
+        PYTHON_VERSION=3
+    elif command_exists python2; then
+        PYTHON_VERSION=2
+    fi
+
+    echo -e "Python version $PYTHON_VERSION Found!"
+}
+
+if [[ $DEBUG == "0" ]]; then
+    unset DEBUG # do nothing
+elif [[ $DEBUG == "1" ]]; then
+    set -xe
+fi
+
+if [[  $# -le "0" ]]
+then
+        display_usage
+        exit 1
+fi
+
+if [[ ( $1 == "--help") ||  $1 == "-h" ]]
+then
+        display_usage
+        exit 0
+fi
+
+if [[ $1 == "install" ]]; then
+    echo "Installing to ~/bin"
+    install -D $0 -t ~/bin/
+    exit 0
+fi
+
+find_setup_python_version
+
+if [[ $PYTHON_VERSION == "2" ]]; then
+    python -m "SimpleHTTPServer" $1
+elif [[ $PYTHON_VERSION == "3" ]]; then
+    python3 -m http.server $1
+fi

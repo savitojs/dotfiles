@@ -1,0 +1,11 @@
+#!/bin/sh
+
+git fetch
+remoteBranch=$(git symbolic-ref --short -q HEAD)
+
+if [ ! -z "$1" ]
+then
+  remoteBranch=$1
+fi
+echo "Showing logs between $remoteBranch origin/$remoteBranch"
+git log $remoteBranch..origin/$remoteBranch --oneline

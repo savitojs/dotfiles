@@ -1,0 +1,12 @@
+image: python:latest
+
+variables:
+    GIT_SUBMODULE_STRATEGY: normal
+
+before_script:
+  - mkdir -p $CI_PROJECT_DIR/dotfiles-install-dir
+
+test:
+  script:
+    - HOME=$CI_PROJECT_DIR/dotfiles-install-dir ./install
+  tags: [shared]

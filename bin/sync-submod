@@ -1,0 +1,4 @@
+#!/bin/bash
+# Run this inside the dotfiles repo
+git submodule sync --recursive
+git submodule foreach git pull origin master

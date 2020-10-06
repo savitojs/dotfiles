@@ -1,0 +1,24 @@
+[submodule "dotbot"]
+	path = .dotbot
+	url = https://github.com/anishathalye/dotbot.git
+[submodule "zsh/oh-my-zsh"]
+	path = zsh/oh-my-zsh
+	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "awesome-vim"]
+	path = vim/vim_runtime
+	url = https://github.com/amix/vimrc.git
+[submodule "fonts"]
+	path = .fonts
+	url = https://github.com/powerline/fonts.git
+[submodule "powerlevel10k"]
+	path = zsh/themes/powerlevel10k
+	url = https://github.com/romkatv/powerlevel10k.git
+[submodule "zsh-completions"]
+	path = zsh/plugins/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions.git
+[submodule "zsh-autosuggestions"]
+	path = zsh/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions.git
+[submodule "zsh-syntax-highlighting"]
+	path = zsh/plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
